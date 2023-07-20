@@ -21,6 +21,8 @@ body {
     background-color: #696969;
     align-self: stretch;
     border-radius: 8px;
+    padding: 16px;
+    align-items: flex-start;
 }
 
 #grid-container {
@@ -47,4 +49,28 @@ body {
     align-items: center;
     border: 1px solid black;
     background-color: #f1f1f1;
+}
+
+.button {
+    color: #251058;
+    border: 3px solid #251058;
+    border-radius: 8px;
+    font-size: 32px;
+    padding: 18px;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+.button:hover {
+    background-color: #3b3252;
+    color: #f1f1f1;
+}
+
+.button:active {
+    scale: 90%;
+}
+
+.button.btn-enabled {
+    background-color: #3b3252;
+    color: #f1f1f1;
 }
