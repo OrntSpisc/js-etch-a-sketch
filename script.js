@@ -1,6 +1,7 @@
 const gridsContainer = document.querySelector('#grid-container');
 const sizeButton = document.querySelector('#size-btn');
 const toggleButton = document.querySelector('.toggle-btn');
+const overlay = document.querySelector('#disabled-overlay');
 let gridSize = 16;
 let enabled = false;
 generateGrid(gridSize);
@@ -9,7 +10,8 @@ const cells = document.querySelectorAll('.cell');
 gridsContainer.addEventListener('click', function() {
     if (!enabled) {
         toggleDrawing();
-        toggleButton.classList.add('btn-enabled')
+        toggleButton.classList.add('btn-enabled');
+        overlay.classList.remove('overlay-on');
     }
 }, { once: true })
 
