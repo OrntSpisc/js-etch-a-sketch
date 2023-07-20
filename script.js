@@ -2,10 +2,18 @@ const gridsContainer = document.querySelector('#grid-container');
 const sizeButton = document.querySelector('#size-btn');
 const toggleButton = document.querySelector('.toggle-btn');
 const overlay = document.querySelector('#disabled-overlay');
+const clearButton = document.querySelector('#clear-btn');
+
 let gridSize = 16;
 let enabled = false;
 generateGrid(gridSize);
 const cells = document.querySelectorAll('.cell');
+
+clearButton.addEventListener('click', function() {
+    cells.forEach(function(cell) {
+        cell.style.backgroundColor = '#f1f1f1';
+    })
+})
 
 gridsContainer.addEventListener('click', function() {
     if (!enabled) {
