@@ -34,6 +34,7 @@ function toggleDrawing() {
     } else {
         cells.forEach(cell => cell.addEventListener('mouseover', colorCell));
         toggleButton.classList.add('btn-enabled');
+        overlay.classList.remove('overlay-on');
         enabled = true
     }
 }
@@ -73,4 +74,16 @@ function generateGrid(size) {
 function colorCell() {
     this.style.backgroundColor = 'black';
 }
+
+document.addEventListener('keyup', function(e) {
+    if (e.key == 'c') {
+        clearButton.click();
+    }
+});
+
+document.addEventListener('keyup', function(e) {
+    if (e.key == 'e') {
+        toggleButton.click();
+    }
+})
 
