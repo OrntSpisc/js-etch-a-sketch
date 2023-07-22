@@ -6,8 +6,7 @@ const clearButton = document.querySelector('#clear-btn');
 
 let gridSize = 16;
 let enabled = false;
-generateGrid(gridSize);
-const cells = document.querySelectorAll('.cell');
+let cells = generateGrid(gridSize);
 
 clearButton.addEventListener('click', function() {
     cells.forEach(function(cell) {
@@ -15,7 +14,7 @@ clearButton.addEventListener('click', function() {
     })
 })
 
-gridsContainer.addEventListener('click', function() {
+gridsContainer.addEventListener('click', function gridClickHandler() {
     if (!enabled) {
         toggleDrawing();
         toggleButton.classList.add('btn-enabled');
@@ -40,6 +39,7 @@ function toggleDrawing() {
 }
 
 sizeButton.addEventListener('click', () => {
+    enabled = false;
     gridSize = prompt('Type grid size (max 100)');
     if (gridSize > 100 || gridSize === null || gridSize === '') {
         if (gridSize > 100) {
@@ -47,11 +47,11 @@ sizeButton.addEventListener('click', () => {
         }
         return;
     }
-    while (gridsContainer.hasChildNodes()) {
-        gridsContainer.removeChild(gridsContainer.firstChild);
-    }
-    generateGrid(gridSize);
+    document.querySelectorAll('.grid-row').forEach(row => row.remove());
+    cells = generateGrid(gridSize);
+    // gridsContainer.removeEventListener('click', gridClickHandler);
 })
+
 function generateGrid(size) {
     if (size > 100) {
         return;
@@ -67,11 +67,8 @@ function generateGrid(size) {
             row.appendChild(cell);
         }
     }
-
+    return document.querySelectorAll('.cell');
 }
-
-
-
 
 function colorCell() {
     this.style.backgroundColor = 'black';
