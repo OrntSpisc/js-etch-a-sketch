@@ -1,39 +1,59 @@
 const gridsContainer = document.querySelector('#grid-container');
 const sizeButton = document.querySelector('#size-btn');
-const toggleButton = document.querySelector('.toggle-btn');
+const enableButton = document.querySelector('#enable-btn');
 const overlay = document.querySelector('#disabled-overlay');
 const clearButton = document.querySelector('#clear-btn');
+const rainbowButton = document.querySelector('#rainbow-btn');
 
 let gridSize = 16;
 let enabled = false;
+let rainbow = false;
 let cells = generateGrid(gridSize);
 
 clearButton.addEventListener('click', function() {
     cells.forEach(function(cell) {
-        cell.style.backgroundColor = '#f1f1f1';
+        cell.style.backgroundColor = 'transparent';
     })
 })
 
 gridsContainer.addEventListener('click', function gridClickHandler() {
     if (!enabled) {
         toggleDrawing();
-        toggleButton.classList.add('btn-enabled');
+        enableButton.classList.add('btn-enabled');
         overlay.classList.remove('overlay-on');
     }
 }, { once: true })
 
-toggleButton.addEventListener('click', function() {
-    toggleDrawing();
-})
+rainbowButton.addEventListener('click', toggleRainbow);
+
+function toggleRainbow() {
+    if (enabled) {
+        if (!rainbow) {
+            cells.forEach(cell => cell.removeEventListener('mouseover', colorCell));
+            cells.forEach(cell => cell.addEventListener('mouseover', colorRainbow));
+            rainbowButton.classList.add('btn-enabled');
+            rainbow = true;
+        } else {
+            cells.forEach(cell => cell.addEventListener('mouseover', colorCell));
+            cells.forEach(cell => cell.removeEventListener('mouseover', colorRainbow));
+            rainbowButton.classList.remove('btn-enabled');
+            rainbow = false;
+        }
+    }
+}
+
+enableButton.addEventListener('click', toggleDrawing);
 
 function toggleDrawing() {
     if (enabled) {
         cells.forEach(cell => cell.removeEventListener('mouseover', colorCell));
-        toggleButton.classList.remove('btn-enabled');
+        cells.forEach(cell => cell.removeEventListener('mouseover', colorRainbow));
+        enableButton.classList.remove('btn-enabled');
+        rainbowButton.classList.remove('btn-enabled');
         enabled = false
     } else {
         cells.forEach(cell => cell.addEventListener('mouseover', colorCell));
-        toggleButton.classList.add('btn-enabled');
+        enableButton.classList.add('btn-enabled');
         overlay.classList.remove('overlay-on');
         enabled = true
     }
@@ -75,6 +95,13 @@ function colorCell() {
     this.style.backgroundColor = 'black';
 }
 
+function colorRainbow() {
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    this.style.backgroundColor = "rgb(" + r + "," + g + "," + b + ")";
+}
+
 document.addEventListener('keyup', function(e) {
     if (e.key == 'c') {
         clearButton.click();
@@ -82,8 +109,14 @@ document.addEventListener('keyup', function(e) {
 });
 
 document.addEventListener('keyup', function(e) {
+    if (e.key == 'r') {
+        rainbowButton.click();
+    }
+})
+
+document.addEventListener('keyup', function(e) {
     if (e.key == 'e') {
-        toggleButton.click();
+        enableButton.click();
     }
 })
 
