@@ -16,13 +16,15 @@ clearButton.addEventListener('click', function() {
     })
 })
 
-gridsContainer.addEventListener('click', function gridClickHandler() {
+gridsContainer.addEventListener('click', gridClickHandler, { once: true })
+
+function gridClickHandler() {
     if (!enabled) {
         toggleDrawing();
         enableButton.classList.add('btn-enabled');
         overlay.classList.remove('overlay-on');
     }
-}, { once: true })
+}
 
 rainbowButton.addEventListener('click', toggleRainbow);
 
@@ -50,7 +52,8 @@ function toggleDrawing() {
         cells.forEach(cell => cell.removeEventListener('mouseover', colorRainbow));
         enableButton.classList.remove('btn-enabled');
         rainbowButton.classList.remove('btn-enabled');
-        enabled = false
+        enabled = false;
+        rainbow = false;
     } else {
         cells.forEach(cell => cell.addEventListener('mouseover', colorCell));
         enableButton.classList.add('btn-enabled');
@@ -60,7 +63,6 @@ function toggleDrawing() {
 }
 
 sizeButton.addEventListener('click', () => {
-    enabled = false;
     gridSize = prompt('Type grid size (max 100)');
     if (gridSize > 100 || gridSize === null || gridSize === '') {
         if (gridSize > 100) {
@@ -70,7 +72,10 @@ sizeButton.addEventListener('click', () => {
     }
     document.querySelectorAll('.grid-row').forEach(row => row.remove());
     cells = generateGrid(gridSize);
-    // gridsContainer.removeEventListener('click', gridClickHandler);
+    overlay.classList.add('overlay-on');
+    enabled = true;
+    rainbow = true;
+    toggleDrawing();
 })
 
 function generateGrid(size) {
